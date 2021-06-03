@@ -1,0 +1,46 @@
+#+TITLE: Kernel Networking Implementation Theory
+#+SOURCE:  https://github.com/faquir-1990/itBooks/blob/master/Linux%20Kernel%20Networking%20-%20Implementation%20and%20Theory.pdf
+
+* Introduction
+** Socket Buffer
+*** every packet corresponds to one skb
+*** TODO Look at ip_rcv method to see how skbs are used
+** Miscellaneous
+*** iproute2 userspace package uses general netlink sockets
+
+* Netlink Sockets Chapter
+** Netlink family
+*** Socket-based IPC, extends standard socket implementation
+*** Files
+**** af_netlink.c, af_netlink.h, genetlink.c, diag.c
+*** *NOT* the only way to communicate between the userspace and kernel space (ioctl)
+*** Benefits:
+**** No need for polling
+**** Supports multicast
+**** Async
+**** Easier to set-up
+** General Steps to use netlink
+1. Create a netlink socket on userspace side
+   a. Use AF_NETLINK, SOCK_RAW, NETLINK_ROUTE
+      _(int socket(int domain, int type, int protocol);)_
+   b. Create a _sockaddr_nl_ object
+      a. nl_family: AF_NETLINK
+      b. nl_pad: 0
+      c. nl_pid: unicast address
+         userspace applications set nl_pid to be their pid. In a userspace application, if when I set nl_pid to be 0, or don't set at all, and after bind is called, _netlink_autobind_ assigns an automatic value.
+      d. nl_ground: multicast group
+2. Create a netlink socket on the kernel side. Each kernel socket handles messages of different types. Consider example of netlink socket that handles NETLINK_ROUTE messages.
+   a. Call *rtnetlink_net_init*, takes in a network namespace object (_struct net_)
+   b. In a, _netlink_kernel_create_ is called. (struct sock *netlink_kernel_create(struct net *net, int unit, struct netlink_kernel_cfg *cfg))
+      a. net: network namespace
+      b. unit: netlink protocol
+      c. optional parameters for netlink kernel configuration. It contains input that allows one to register a callback.
+   c. After creating the kernel socket, we register the socket using _rtnl_register_: (extern void rtnl_register(int protocol, int msgtype, rtnl_doit_func, rtnl_dumpit_func, rtnl_calcit_func);)
+      a. First parameter is the _protocol_ family (include/linux/socket.h)
+      b. Second parameter is the _netlink message type_ (list in include/uapi/linux/rtnetlink)
+      c. The last 3 parameters are callbacks: _doit_ is for retrieving information, _dumpit_ is for retrieving information, _calcit_ callback is for calculation of buffer size.
+   d. _rtmsgifinfo_
+      a. _nlmsg_new_ is called to allocate an sk_buff with proper size. _nlmsghdr_new_ used to allocate an sk_buff with the proper size.
+** Netlink Route Messages
+*** Note that _rtnetlink_ isn't just limited to the networking routing subsystem: there are neighbouring subsystem messages, interface setup messages, firewalling messages
+*** NETLINK_ROUTE messages divided to families(i.e. LINK, ADDR, ROUTE, QDISC), where in each family there are three types of messages (creation, deletion, retrieving information)

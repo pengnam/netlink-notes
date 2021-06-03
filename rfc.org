@@ -1,0 +1,35 @@
+#+TITLE: Netlink RFC
+#+SOURCE: https://datatracker.ietf.org/doc/html/rfc3549
+* Background
+** IP Service Control Forwarding separation (1990s BSD 4.4 Routing Sockets)
+** Idea: to control forwarding table for a forwarding service, but has since been used as some kind of abstraction of ip services
+* Definitions
+** *Control Plane:* Execution environment that may have several subcomponents called CPCs.
+*** Each CPC provides control for a different IP service being executed by a *Forwarding Engine* component.
+*** Several CPCs on a physical CP.
+*** Cohesion between a CP component and a FE component is the service abstraction
+
+** *CPC*: Signalling protocols such as OSPF.
+
+
+
+* Architecture
+** TODO Understand the connect systemcall and how it is different
+** Overview
+*** Control of IP service components is defined by using templates.
+*** The FEC and CPC participate to deliver the IP service by communicating using these templates.
+*** Netlink is unreliable, but FEC and CPC may use netlink to establish reliable communication
+** Logical Model
+*** FECs and CPCs are *nodes* interconnected by a *broadcast wire*
+*** Wire is specific to a service
+*** Nodes connect to the wire and register to receive specific messages
+*** Packets are dropped if they are malformed
+*** Packets can be broadcast, multicast, or unicast
+** Message Format
+*** There are three levels to a Netlink message: The general Netlink message header, the IP service specific template, and the IP service specific data.
+** TODO Fill in other parts of the format: service addressing, netlink message header, FE system services template
+
+* Example of Netlink IP Service: IP Service NETLINK_ROUTE
+** Network Route Service Model
+*** Ability to create, remove, or receive information about a service route
+** Network Route Service
