@@ -2,4 +2,19 @@
 #+SOURCE: https://github.com/luigirizzo/netlink-freebsd/blob/master/README
 
 * Code Structure
-** *net*: headers to be part of
+** *net*: headers
+** *linux*: headers
+** *test*: test
+** _bsd_nlsock.c_: netlink sock dispatcher, derived from rtsock.c
+** _genetlink.c_: genetlink and netlink apis
+** _netlink.c_: netlink implementation
+
+* TODO Figure out how to compilation process works
+* Notes about building process
+** _make buildworld_: compile the rest of the world "includes the kernel, core system binaries, libraries, programming files, and built-in compiler. "
+** _make buildkernel_: uses the new compiler in _/usr/obj_ to build the new kernel
+** _make installkernel_: allows user to boot into the new kernel
+
+* netlink test program
+** do_open: opens the netlink socket on the userspace side. Settings look okay.
+** do_write: writes to socket
