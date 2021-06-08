@@ -65,3 +65,20 @@
 **** Each header defined by _nlattr_
 ***** u16 nl_len: length of attribute
 ***** u16 nla_type: attribute type
+
+** Generic Netlink Messages Components
+*** Netlink message header
+
+*** Generic netlink message header
+
+*** User specific message header (optional)
+
+**** genlmsghdr:
+
+***** u8 cmd: generic message type
+
+***** u8 version: versioning support, without breaking backward compatibility
+
+***** u16 reserved: for future use
+
+*** Generic Netlink message payload (optional)
