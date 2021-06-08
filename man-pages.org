@@ -1,0 +1,13 @@
+#+TITLE: man-pages
+#+SOURCE: various man pages on both FreeBSD and Linux
+
+
+
+* Linux
+** netlink:
+*** *Signature*: netlink_socket = socket(AF_NETLINK, socket_type, netlink_family);
+**** socket_type: SOCK_RAW or SOCK_DGRAM as its a datagram oriented service
+**** netlink_family: NETLINK_ROUTE, NETLINK_FIREWALL, NETLINK_NETFILTER,  NETLINK_GENERIC
+*** Consists of standard sockets-based interface for userspace processes and internal kernel API for kernel modules
+*** messages consist of byte stream with:
+**** one or multiple mlmsghdr headers with the associated headers
