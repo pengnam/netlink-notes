@@ -13,6 +13,9 @@
 *** Socket-based IPC, extends standard socket implementation
 *** Files
 **** af_netlink.c, af_netlink.h, genetlink.c, diag.c
+***** af_netlink.c: kernel user communication protocol
+***** af_netlink.h: header file for above: defines _netlink_sock_, which contains sock as a struct parameter of af_netlink.c, and _netlink_table_ which seems to keep track of listerners to and fro a socket
+***** genetlink.c: generic netlink protocol
 *** *NOT* the only way to communicate between the userspace and kernel space (ioctl)
 *** Benefits:
 **** No need for polling
@@ -41,6 +44,10 @@
       c. The last 3 parameters are callbacks: _doit_ is for retrieving information, _dumpit_ is for retrieving information, _calcit_ callback is for calculation of buffer size.
    d. _rtmsgifinfo_
       a. _nlmsg_new_ is called to allocate an sk_buff with proper size. _nlmsghdr_new_ used to allocate an sk_buff with the proper size.
+
+** Generic Observations from above
+*** Netlink is namespace aware from the _net_ object
+
 ** Netlink Route Messages
 *** Note that _rtnetlink_ isn't just limited to the networking routing subsystem: there are neighbouring subsystem messages, interface setup messages, firewalling messages
 *** NETLINK_ROUTE messages divided to families(i.e. LINK, ADDR, ROUTE, QDISC), where in each family there are three types of messages (creation, deletion, retrieving information)

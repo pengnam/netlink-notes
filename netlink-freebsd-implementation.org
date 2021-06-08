@@ -6,7 +6,7 @@
 ** *linux*: headers
 ** *test*: test
 ** _bsd_nlsock.c_: netlink sock dispatcher, derived from rtsock.c
-** _genetlink.c_: genetlink and netlink apis
+** _genetlink.c_: generic netlink implementation
 ** _netlink.c_: netlink implementation
 
 * TODO Figure out how to compilation process works
@@ -18,3 +18,11 @@
 * netlink test program
 ** do_open: opens the netlink socket on the userspace side. Settings look okay.
 ** do_write: writes to socket
+
+* Looking at code
+** netlink.c
+*** Dispatch table for different netlink handlers
+**** bsd_nl_fn: struct that contains the different netlink handlers
+**** bsd_nl_proto_reg: registers a new netlink family
+**** netlink_receive_packet: receives message from netlink socket [Not sure where its called, on the kernel side?]
+****
