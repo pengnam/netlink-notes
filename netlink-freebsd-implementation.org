@@ -21,8 +21,10 @@
 
 * Looking at code
 ** netlink.c
-*** Dispatch table for different netlink handlers
+*** Data structures
 **** bsd_nl_fn: struct that contains the different netlink handlers
+*** Functions
 **** bsd_nl_proto_reg: registers a new netlink family
-**** netlink_receive_packet: receives message from netlink socket [Not sure where its called, on the kernel side?]
-****
+**** netlink_receive_packet: receives message from netlink socket [Not sure where its called, on the kernel side?]***
+** bsd_nlsock.c
+***
