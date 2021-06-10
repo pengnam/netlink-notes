@@ -1,0 +1,23 @@
+#+TITLE: Dtrace
+#+SOURCE: DTrace: Dynamic Tracing in Oracle Solaris, Mac OS X and FreeBSD
+
+* Background (wiki)
+** Comprehensive dynamic tracing framework created by sun microsystems to troubleshoot kernel and application problems in real-time. Used to get global overview of a running system, such as mem, CPU, filesystem, network resources
+** Features
+*** Uses D programming language
+*** Resembles _awk_ in structure
+*** Consists of list with one or more probes, which each probe being associated with an action
+*** Probes are comparable to aspect orientation programming (ex: log for all functions starting w set")
+*** If condition met, probe fires, assess call-stack, log information.
+* Dynamic vs static probes:
+** Static instrumentation: adversely affects performance when not enables
+** Dynamic instrumentation allows profiling on the fly, and also allows a facility for developing and inserting custom instrumentation
+** NOPs are placed in desired probe points. Probes are inserted dynamically and trace execution through code and collect relevant data. If disabled, it has minimal impact.
+** DTrace makes minimal demand on CPU cycles and memory by design (?)
+* Probe:
+** point of instrumentation, location in program flow
+** specified using _provider:module:function:name_
+*** provider: library of probea (mode of tracing: fbt)
+*** module: kernel module where probe is located
+*** function
+*** name: meaningfulname: entry/return are probes
