@@ -1,0 +1,16 @@
+#+TITLE: Makefile
+#+SOURCE: https://www.gnu.org/software/make/manual/make.html
+
+* This serves as a proper reading of the makefile documentation which I have not done before
+
+*
+
+* Overview of _make_
+
+** _make_ was created by Richard Stallman and Roland McGrath
+
+** can be used with any programming language whoose compiler can be run with the shell command
+
+** General idea:
+
+*** makefile describes relationships among files in program, and provides commands to update
